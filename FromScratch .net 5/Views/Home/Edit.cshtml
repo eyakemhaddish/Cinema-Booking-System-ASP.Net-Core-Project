@@ -1,0 +1,111 @@
+﻿@using FromScratch_.net_5.Models;
+@model MovieEditViewModel
+
+@{
+    ViewBag.Title = "Edit Movie";
+    var photoPath = "/Images/" + (ViewBag.ExistingPhotoPath ?? "404.jpg");
+    
+}
+
+<form enctype="multipart/form-data" asp-controller="Home" asp-action="Edit" method="post" class="mt-3 form-horizontal">
+  @*//Hidden field because we don't want to display the id in the view'*@
+    <input hidden asp-formaction="Id"/>
+    <input hidden asp-formaction="ExistingPhotoPath" />
+    
+    <div class="form-group row" style="margin: 15px;">
+        <label asp-for="Name" class="col-sm-2 col-form-label"></label>
+        <div class="col-sm-10">
+            <input asp-for="Name" class="form-control" value="@ViewBag.Name">
+            <span asp-validation-for="Name" class="text-danger"></span>
+        </div>
+    </div>
+
+    <div class="form-group row " style="margin: 15px;">
+        <label asp-for="Genre" class="col-sm-2 col-form-label"></label>
+        <div class="col-sm-10">
+            <select asp-for="Genre" class="form-select form-select-sm" aria-label=".form-select-sm example"
+                    asp-items="Html.GetEnumSelectList<genre>()">
+                <option value="">Please Select</option>
+                <option value="" disabled selected hidden>@ViewBag.Department</option>
+            </select>
+            <span asp-validation-for="Genre" class="text-danger"></span>
+        </div>
+    </div>
+
+
+    <div class="form-group row " style="margin: 15px;">
+        <label asp-for="Description" class="col-sm-2 col-form-label"></label>
+        <div class="col-sm-10">
+
+            <textarea asp-for="Description" class="form-control" value="@ViewBag.Description">Description</textarea>
+            <span asp-validation-for="Description" class="text-danger"></span>
+        </div>
+    </div>
+
+
+
+
+    <div class="form-group row " style="margin: 15px;">
+        <label asp-for="Director" class="col-sm-2 col-form-label"></label>
+        <div class="col-sm-10">
+           
+            <input asp-for="Director" class="form-control" value="@ViewBag.Email">
+            <span asp-validation-for="Director" class="text-danger"></span>
+        </div>
+    </div>
+
+    <div class="form-group row " style="margin: 15px;">
+        <label asp-for="Producer" class="col-sm-2 col-form-label"></label>
+        <div class="col-sm-10">
+
+            <input asp-for="Producer" class="form-control" value="@ViewBag.Producer">
+            <span asp-validation-for="Producer" class="text-danger"></span>
+        </div>
+    </div>
+
+    <div class="form-group row " style="margin: 15px;">
+        <label asp-for="Actors" class="col-sm-2 col-form-label"></label>
+        <div class="col-sm-10">
+
+            <input asp-for="Actors" class="form-control" value="@ViewBag.Actors">
+            <span asp-validation-for="Actors" class="text-danger"></span>
+        </div>
+    </div>
+  
+    <div class="form-group row " style="margin: 15px;">
+        <label asp-for="AvailableSeats" class="col-sm-2 col-form-label"></label>
+        <div class="col-sm-10">
+
+            <input asp-for="AvailableSeats" class="form-control" value="@ViewBag.AvailableSeats">
+            <span asp-validation-for="AvailableSeats" class="text-danger"></span>
+        </div>
+    </div>
+
+
+
+
+    <div class="form-group row " style="margin: 15px;">
+        <label class="col-sm-2 col-form-label">Photo</label>
+        <div class="col-sm-10">
+            <div class="custom-file">
+                <input multiple asp-for="Photo" class="form-control custom-file-input" >
+            @*     <label class="custom-file-label">Current Photo: @ViewBag.ExistingPhotoPath</label>*@
+            </div>
+        </div>
+    </div>
+    <div>
+
+    </div>
+    <div>
+        <img class="card-img-top" style="width:150px; height:300px" src="@photoPath" asp-append-version="true" />
+
+    </div>
+    <div asp-validation-summary="All" style="margin:15px" class="text-danger"></div>
+
+    <div class="form-group-row">
+        <div class="col-sm-10">
+            <button type="submit" class="btn btn-primary">Update</button>
+            <a asp-asp-controller="home" asp-action="index" class="btn btn-primary">Cancel</a>
+        </div>
+    </div>
+</form>

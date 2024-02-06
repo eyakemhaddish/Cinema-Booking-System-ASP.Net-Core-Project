@@ -1,0 +1,525 @@
+﻿@{
+    ViewBag.Title = "Home";
+}
+@*<link href="~/css/photo.css" rel="stylesheet" />*@
+<link href="~/css/flyin.css" rel="stylesheet" />
+<link href="~/css/flyin2.css" rel="stylesheet" />
+<link href="~/css/flyin3.css" rel="stylesheet" />
+<link href="~/css/flyin4.css" rel="stylesheet" />
+<link href="~/css/typewriter.css" rel="stylesheet" />
+<div class="container">
+    <div class="row">
+        <div class="col-md-8 fly-in" style="bottom: 200px">
+            <h1 style="color: darkgrey; font-size: 56px; font-family: 'Helvetica Neue', Arial, sans-serif;">Welcome to Our Cinema</h1>
+
+
+
+            <div class="row row-cols-1" style="width:700px; height: 400px; background-color: transparent; box-shadow: 5px 5px 20px black; overflow: hidden;">
+                <div class="w-100"></div>
+
+
+
+
+
+
+
+
+
+                <div>
+                    @*   <img src="~/images/mv11.jpg" />
+                    <img src="~/images/mv12.jpeg" />
+                    <img src="~/images/mv13.jpg" />
+                    <img src="~/images/mv14.jpg" />/>*@
+                    <h1>
+                        <a class="typewrite" data-period="2000" data-type='[ "Experience Luxury!", "Enjoy the top-notch services!", "Enjoy your favourite Box-Office movies!", "All this for an affordable price!" ]' style="color: darkgray;">
+                            <span class="wrap"></span>
+                        </a>
+                    </h1>
+
+                </div>
+            </div>
+
+        </div>
+
+
+
+
+
+        <script>
+            var TxtType = function (el, toRotate, period) {
+                this.toRotate = toRotate;
+                this.el = el;
+                this.loopNum = 0;
+                this.period = parseInt(period, 10) || 2000;
+                this.txt = '';
+                this.tick();
+                this.isDeleting = false;
+
+
+            };
+
+            TxtType.prototype.tick = function () {
+                var i = this.loopNum % this.toRotate.length;
+                var fullTxt = this.toRotate[i];
+
+                if (this.isDeleting) {
+                    this.txt = fullTxt.substring(0, this.txt.length - 1);
+                } else {
+                    this.txt = fullTxt.substring(0, this.txt.length + 1);
+                }
+
+                this.el.innerHTML = '<span class="wrap">' + this.txt + '</span>';
+
+                var that = this;
+                var delta = 200 - Math.random() * 100;
+
+                if (this.isDeleting) { delta /= 2; }
+
+                if (!this.isDeleting && this.txt === fullTxt) {
+                    delta = this.period;
+                    this.isDeleting = true;
+                } else if (this.isDeleting && this.txt === '') {
+                    this.isDeleting = false;
+                    this.loopNum++;
+                    delta = 500;
+                }
+
+                setTimeout(function () {
+                    that.tick();
+                }, delta);
+            };
+
+            window.onload = function () {
+                var elements = document.getElementsByClassName('typewrite');
+                for (var i = 0; i < elements.length; i++) {
+                    var toRotate = elements[i].getAttribute('data-type');
+                    var period = elements[i].getAttribute('data-period');
+                    if (toRotate) {
+                        new TxtType(elements[i], JSON.parse(toRotate), period);
+                    }
+                }
+                // INJECT CSS
+                var css = document.createElement("style");
+                css.type = "text/css";
+                css.innerHTML = ".typewrite > .wrap { border-right: 0.08em solid #fff}";
+                document.body.appendChild(css);
+            };
+        </script>
+
+
+
+
+
+
+        <br>
+        <br>
+
+        <br>
+
+        <br>
+
+        <br>
+
+        <div class="col-md-4 fly-in2" style=" background-color: transparent; box-shadow: 5px 5px 20px black;  width:auto;">
+            <div class="card" style=" background-color: transparent; box-shadow: 5px 5px 20px black; overflow: hidden;">
+                <div class="card-header">
+
+                    <h3 style="color:darkgrey">Upcoming Movies</h3>
+                </div>
+                <br>
+
+                <br>
+
+                <div class="mySlides" style="width:auto; ">
+                    <img src="~/images/mv11.jpg" />
+                    <img src="~/images/mv12.jpeg" />
+                    <img src="~/images/mv13.jpg" />
+                    <img src="~/images/mv14.jpg" />
+                    <img src="~/images/mv18.jpg" />
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    @*  <script>
+    $(window).scroll(function () {
+    $('.fly-in').each(function () {
+    var position = $(this).offset().top;
+    var scroll = $(window).scrollTop();
+    var windowHeight = $(window).height();
+    if (scroll > position - windowHeight + 200) {
+    $(this).addClass('fly-in');
+    }
+    });
+    });
+    </script>*@
+    <br>
+    <br>
+    <br>
+    <br>
+    <hr>
+
+
+    <div class="row">
+        <div class="col-md-12">
+            <h2 style="color:darkgrey">Coming This Summer</h2>
+        </div>
+        <br>
+
+        <br>
+
+        <div class="col-md-3 fly-in">
+            <div class="card mb-3 image-container" style="background-color: transparent; box-shadow: 5px 5px 20px black;">
+                <div class="image-wrapper">
+                    <img src="~/images/mv111.jpg" class="card-img-top" alt="...">
+                    <div class="overlay">
+                        <div class="text">
+                            <b>Avengers:Endgame</b>
+
+                        </div>
+                        <div class="text2">
+                            After Thanos, an intergalactic warlord, disintegrates half of the universe, the Avengers must reunite and assemble again to reinvigorate their trounced allies and restore balance.
+
+                        </div>
+
+                    </div>
+                </div>
+
+                <div class="card-body">
+
+                    @*                    <a asp-action="Book" asp-controller="Book" asp-route-id="6" class="btn btn-primary" style="width:auto">Book Now</a>
+                    *@                   <a href="https://youtu.be/TcMBFSGVi1c" target="_blank">
+
+                        <button class="btn btn-primary" style="width:auto;">
+                            Watch trailer
+                            <img style="width: 30px; border-radius: 20%;" src="~/images/yt3.jpg" alt="YouTube icon" />
+                        </button>
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-3 fly-in2">
+            <div class="card mb-3 image-container" style="background-color: transparent; box-shadow: 5px 5px 20px black;">
+                <div class="image-wrapper">
+                    <img src="~/images/mh2.jpeg" class="card-img-top" alt="...">
+                    <div class="overlay">
+                        <div class="text">
+                            <b>Influencer</b>
+
+                        </div>
+                        <div class="text2">
+                            While struggling on a solo backpacking trip in Thailand, social media influencer Madison meets CW, who travels with ease and shows her a more uninhibited way of living, but CW's interest in her takes a darker turn.
+                        </div>
+
+                    </div>
+                </div>
+
+                <div class="card-body">
+
+                    @*                    <a asp-action="Book" asp-controller="Book" asp-route-id="6" class="btn btn-primary" style="width:auto">Book Now</a>
+                    *@                <a href="https://youtu.be/ZIj-rJt0cms" target="_blank">
+
+                        <button class="btn btn-primary" style="width:auto;">
+                            Watch trailer
+                            <img style="width: 30px; border-radius: 20%;" src="~/images/yt3.jpg" alt="YouTube icon" />
+                        </button>
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-3 fly-in3">
+            <div class="card mb-3 image-container" style="background-color: transparent; box-shadow: 5px 5px 20px black;">
+                <div class="image-wrapper">
+                    <img src="~/images/mh3.jfif" class="card-img-top" alt="...">
+                    <div class="overlay">
+                        <div class="text">
+                            <b>Salnegrat</b>
+
+                        </div>
+                        <div class="text2">
+                            This Ethiopian comedy movie depicts the life of Dagnachew, an aspiring screenwriter working on a screenplay, who unwillingly gets involved in an underworld crime when his strange friends abduct a dangerous hoodlum's pet.
+                        </div>
+
+                    </div>
+                </div>
+
+                <div class="card-body">
+
+                    @*                    <a asp-action="Book" asp-controller="Book" asp-route-id="6" class="btn btn-primary" style="width:auto">Book Now</a>
+                    *@                     <a href="https://youtu.be/tVmop5ui9L0" target="_blank">
+
+                        <button class="btn btn-primary" style="width:auto;">
+                            Watch trailer
+                            <img style="width: 30px; border-radius: 20%;" src="~/images/yt3.jpg" alt="YouTube icon" />
+                        </button>
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-3 fly-in4">
+            <div class="card mb-3 image-container" style="background-color: transparent; box-shadow: 5px 5px 20px black;">
+                <div class="image-wrapper">
+                    <img src="~/images/mv12.jpg" class="card-img-top" alt="...">
+                    <div class="overlay">
+                        <div class="text">
+                            <b>Harry Potter</b>
+
+                        </div>
+                        <div class="text2">
+                            A series of seven fantasy novels written by British author J. K. Rowling. The novels chronicle the lives of a young wizard, Harry Potter, and his friends Hermione Granger and Ron Weasley, all of whom are students at Hogwarts School of Witchcraft and Wizardry.
+
+                        </div>
+
+                    </div>
+                </div>
+
+                <div class="card-body">
+
+                    @*                    <a asp-action="Book" asp-controller="Book" asp-route-id="6" class="btn btn-primary" style="width:auto">Book Now</a>
+                    *@                    <a href="https://youtu.be/MxqsmsA8y5k" target="_blank">
+
+                        <button class="btn btn-primary" style="width:auto;">
+                            Watch trailer
+                            <img style="width: 30px; border-radius: 20%;" src="~/images/yt3.jpg" alt="YouTube icon" />
+                        </button>
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <br>
+        <br>
+        <br>
+        <hr>
+
+        <section class="about_section layout_padding">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="detail-box">
+                            <h3>
+                            </h3>
+                            <div class="custom_heading-container">
+                                <h2>
+                                    About Us
+                                </h2>
+                                <hr>
+                            </div>
+                            <h5 style="color: darkgray">
+                                Welcome to our cinema! We are a premier
+                                destination for movie lovers, providing a
+                                comfortable and immersive movie-going experience.
+                                Our state-of-the-art facilities feature the latest
+                                in sound and projection technology, ensuring that
+                                every film is presented in the best possible quality.
+                                From the latest blockbuster hits to indie gems, we offer
+                                a diverse selection of films to suit every taste. Our friendly
+                                and knowledgeable staff are always on hand to assist with any
+                                questions or concerns, and our concession stand offers a delicious
+                                variety of snacks and refreshments to enjoy during the movie.
+                                We are committed to providing
+                                a safe and enjoyable environment for all of our guests,
+                                and look forward to sharing the magic of cinema with you!
+                            </h5>
+                            <div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="img-box">
+                            <img src="images/pop.png" alt="">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <br>
+        <br>
+        <br>
+        <hr>
+
+
+        <section class="info_section layout_padding">
+            <h3>Socials</h3>
+            <br>
+            <div class="container">
+                <div class="info_social">
+                    <div>
+                        <a href="https://www.facebook.com/Cinema">
+                            <img src="images/fb.png" alt="">
+                        </a>
+                    </div>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    <div>
+                        <a href="https://www.twitter.com/Cinema">
+                            <img src="images/twitter.png" alt="">
+                        </a>
+                    </div>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+                    <div>
+                        <a href="https://www.linkedin.com/Cinema">
+                            <img src="images/linkedin.png" alt="">
+                        </a>
+                    </div>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+                    <div>
+                        <a href="https://www.instagram.com">
+                            <img src="images/insta.png" alt="">
+                        </a>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+        <br>
+        <br>
+        <hr>
+
+
+        <style>
+            .image-wrapper {
+                position: relative;
+                overflow: hidden;
+            }
+
+            .overlay {
+                position: absolute;
+                bottom: 0;
+                left: 0;
+                right: 0;
+                height: 0;
+                background-color: rgba(0, 0, 0, 0.5);
+                transition: height 1.0s ease-out;
+            }
+
+
+            .image-wrapper:hover .overlay {
+                height: 50%;
+            }
+
+
+
+            .text {
+                opacity: 0;
+                color: white;
+                font-size: 20px;
+                position: absolute;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%);
+                display: flex;
+                /*  justify-content: center;
+                            align-items: center;*/
+                height: 100%;
+            }
+
+            .text2 {
+                justify-content: left;
+                color: darkgray;
+                position: absolute;
+                top: 15%;
+            }
+
+            .image-wrapper:hover .text {
+                opacity: 1;
+            }
+
+
+            .about_section {
+                font-family: "Poppins", sans-serif;
+                background-color: transparent;
+                color: aliceblue;
+            }
+
+                .about_section .row {
+                    -webkit-box-align: center;
+                    -ms-flex-align: center;
+                    align-items: center;
+                }
+
+                .about_section a {
+                    display: inline-block;
+                    padding: 8px 25px;
+                    border: 1px solid #000000;
+                    color: #ffffff;
+                    border-radius: 25px;
+                    margin-top: 45px;
+                }
+
+                    .about_section a:hover {
+                        background-color: transparent;
+                        color: #000000;
+                    }
+
+                .about_section p {
+                    margin-top: 45px;
+                    text-size-adjust: auto;
+                }
+
+                .about_section .img-box img {
+                    width: 100%;
+                    margin-right: 10px;
+                }
+
+                .about_section h6 {
+                    text-transform: uppercase;
+                    color: #bdbbbb;
+                    font-weight: bold;
+                    margin: 0;
+                }
+
+
+
+            .info_section {
+                text-align: center;
+                font-family: "Poppins", sans-serif;
+                background-color: transparent;
+                color: #ffffff;
+                padding: 50px;
+                padding: 50px;
+            }
+
+                .info_section .info_social {
+                    display: -webkit-box;
+                    display: -ms-flexbox;
+                    display: flex;
+                    -webkit-box-pack: center;
+                    -ms-flex-pack: center;
+                    justify-content: center;
+                    margin: 30px 50px 50px 50px;
+                    border-spacing: 10px 10px;
+                    margin-bottom: 10px;
+                    padding: 50px;
+                }
+
+                    .info_section .info_social img {
+                        width: 50px;
+                        margin-left: 100px;
+                    }
+
+                .info_section p {
+                    margin: 35px 0 0 0;
+                }
+        </style>
+
+
+        <div class="row">
+
+
+
+
+            <h2 style="color:darkgrey">Our Location</h2>
+            <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3940.4861534146403!2d38.812135963384925!3d9.019338175735369!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x164b8551e70d4e55%3A0x261206bdb30d4986!2zQ2VudHVyeSBNYWxsIHwgR3VyZCBTaG9sYSB8IOGItOGKleGJuOGIqiDhiJ7hiI0gfCDhjInhiK3hi7Ug4Yi-4YiL!5e0!3m2!1sen!2snl!4v1685400199704!5m2!1sen!2snl" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+
+
+
+
+        </div>
+
+    </div>

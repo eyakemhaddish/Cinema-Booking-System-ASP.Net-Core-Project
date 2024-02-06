@@ -1,0 +1,276 @@
+﻿@using FromScratch_.net_5.Models
+@{
+    var monday = ViewBag.Monday;
+    var tuesday = ViewBag.Tuesday;
+    var wednesday = ViewBag.Wednesday;
+    var thursday = ViewBag.Thursday;
+    var friday = ViewBag.Friday;
+    var saturday = ViewBag.Saturday;
+    var sunday = ViewBag.Sunday;
+
+    var totalBooking = ViewBag.TotalBooking;
+    var totalRevenue = ViewBag.Totalrevenue;
+
+    var movie1 = ViewBag.Movie1;
+    var movie2 = ViewBag.Movie2;
+    var movie3 = ViewBag.Movie3;
+    var movie4 = ViewBag.Movie4;
+    var movie5 = ViewBag.Movie5;
+
+    var count1 = ViewBag.count1;
+    var count2 = ViewBag.count2;
+    var count3 = ViewBag.count3;
+    var count4 = ViewBag.count4;
+    var count5 = ViewBag.count5;
+
+    var user1 = ViewBag.user1;
+    var topcount1 = ViewBag.topcount1;
+    var price1 = ViewBag.price1;
+
+     var user2 = ViewBag.user2;
+    var topcount2 = ViewBag.topcount2;
+    var price2 = ViewBag.price2;
+
+    var user3 = ViewBag.user3;
+    var topcount3 = ViewBag.topcount3;
+    var price3 = ViewBag.price3;
+
+    var kidsPhoto = "/Images/" + (ViewBag.Photo ?? "404.jpg");
+    var kidsName = ViewBag.kidsName;
+}
+
+<div style="display: grid; grid-template-columns: 1fr 1fr;">
+    <div style="margin-bottom: 100px;">
+        <div style="display: flex; flex-direction: column; align-items: center;">
+            <h1 style="color: darkgray; margin-bottom: 30px;"><b>Total bookings this Month:</b></h1>
+            <h1 style="color: darkgray; font-size: 68px; text-align: center;" id="booking">0</h1>
+        </div>
+      
+    </div>
+    <div style="display: flex; flex-direction: column; align-items: center;">
+        <h1 style="color: darkgray; margin-bottom: 30px; "><b>Total Revenue this Month:</b></h1>
+        <h1 style="color: darkgray; font-size: 68px; text-align: center;" id="revenue">0 Birr</h1>
+    </div>
+    <div style="display: flex; flex-direction: column; align-items: center;">
+        <h2 style="margin-bottom: 30px; color: darkgray"><b>Weekly bookings</b></h2>
+        <canvas id="myChart" style="width:800px; height: 500px"></canvas>
+    </div>
+
+    <div style="margin-bottom: 100px; display: flex; flex-direction: column; align-items: center;">
+        <h2 style=" margin-bottom: 30px; color: darkgray"><b>Most Booked Movies This Month</b></h2>
+        <canvas id="myChart2"></canvas>
+    </div>
+    <div style="display: flex; flex-direction: column; align-items: center;">
+        <h2 style=" margin-bottom: 30px; color: darkgray"><b>Children's' favourite</b></h2>
+        <div style="width:auto">
+            <img style="height: 240px" src="@kidsPhoto" alt="Kids's favourite">
+        </div>
+      
+    </div>
+    <div style="display: flex; flex-direction: column; align-items: center;">
+        <h2 style=" margin-bottom: 30px; color: darkgray"><b>Top Users this month</b></h2>
+        @*insert table*@
+        <div class="table-responsive">
+            <table class="table table-bordered table-striped table-hover">
+                <thead class="thead-light">
+                    <tr>
+                        <th>Email</th>
+                        <th>Books this month</th>
+                        <th>Total payment</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>@user1</td>
+                        <td>@topcount1</td>
+                        <td>@price1</td>
+                    </tr>
+                    <tr>
+                        <td>@user2</td>
+                        <td>@topcount2</td>
+                        <td>@price2</td>
+                    </tr>
+                    <tr>
+                        <td>@user3</td>
+                        <td>@topcount3</td>
+                        <td>@price3</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js@3.5.0"></script>
+<script>
+    var ctx = document.getElementById('myChart').getContext('2d');
+    var myChart = new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels: ['Monday', 'Tuesday', 'Wednesday', 'Thurday', 'Friday', 'Saturday', 'Sunday'],
+            datasets: [{
+                label: '# of Bookings',
+                data: [@monday, @tuesday, @wednesday, @thursday, @friday, @saturday,@sunday],
+                backgroundColor: [
+                    'rgba(255, 99, 132, 0.2)',
+                    'rgba(54, 162, 235, 0.2)',
+                    'rgba(255, 206, 86, 0.2)',
+                    'rgba(75, 192, 192, 0.2)',
+                    'rgba(153, 102, 255, 0.2)',
+                    'rgba(255, 159, 64, 0.2)'
+                ],
+                borderColor: [
+                    'rgba(255, 99, 132, 1)',
+                    'rgba(54, 162, 235, 1)',
+                    'rgba(255, 206, 86, 1)',
+                    'rgba(75, 192, 192, 1)',
+                    'rgba(153, 102, 255, 1)',
+                    'rgba(255, 159, 64, 1)'
+                ],
+                borderWidth: 1
+            }]
+        },
+        options: {
+            scales: {
+                y: {
+                    beginAtZero: true
+                }
+            }
+        }
+    });
+
+    // Define the chart data
+    var data = {
+        labels: ["@movie1", "@movie2", "@movie3", "@movie4", "@movie5"],
+        datasets: [
+            {
+                data: [@count1, @count2, @count3, @count4, @count5],
+                backgroundColor: [
+                    "#FF6384",
+                    "#36A2EB",
+                    "#FFCE56",
+                    "#2ecc71",
+                    "#9b59b6"
+                ]
+            }
+        ]
+    };
+
+    // Get the chart context
+    var ctx2 = document.getElementById("myChart2").getContext("2d");
+
+    // Create the chart
+    var myPieChart = new Chart(ctx2, {
+        type: 'pie',
+        data: data,
+        options: {
+            responsive: true,
+            title: {
+                display: true,
+                text: 'Most Booked Movies This Month'
+            }
+        }
+    });
+</script>
+
+@*<style>
+    #myChart {
+        width: 100%;
+        max-width: 400px;
+    }
+
+    #myChart2 {
+        width: 100%;
+        max-width: 400px;
+    }
+</style>*@
+
+
+<script>
+    // Get the revenue element
+    var revenue = document.getElementById("revenue");
+
+    // Set the target value
+    var targetValue = @totalRevenue;
+
+    // Set the duration of the animation in milliseconds
+    var duration = 1000;
+
+    // Set the interval between each update in milliseconds
+    var updateInterval = 10;
+
+    // Calculate the increment value for each update
+    var increment = targetValue / (duration / updateInterval);
+
+    // Set the initial value to 0
+    var value = 0;
+
+    // Start the animation
+    var intervalId = setInterval(function () {
+        // Increment the value
+        value += increment;
+
+        // Round the value to two decimal places
+        value = Math.round(value * 100) / 100;
+
+        // Update the revenue element with the new value
+        revenue.innerHTML = value.toFixed(2) + " Birr";
+
+        // Check if the target value has been reached
+        if (value >= targetValue) {
+            // Stop the animation
+            clearInterval(intervalId);
+
+            // Set the final value
+            revenue.innerHTML = targetValue.toFixed(2) + " Birr";
+        }
+    }, updateInterval);
+</script>
+
+<script>
+    // Get the booking element
+    var booking = document.getElementById("booking");
+
+    // Set the target value
+    var targetValue2 = @totalBooking;
+
+    // Set the duration of the animation in milliseconds
+    var duration2 = 1000;
+
+    // Set the interval between each update in milliseconds
+    var updateInterval2 = 10;
+
+    // Calculate the increment value for each update
+    var increment2 = targetValue2 / (duration2 / updateInterval2);
+
+    // Set the initial value to 0
+    var value2 = 0;
+
+    // Start the animation
+    var intervalId2 = setInterval(function () {
+        // Increment the value
+        value2 += increment2;
+
+
+
+        // Update the booking element with the new value
+        booking.innerHTML = value2.toFixed();
+
+        // Check if the target value has been reached
+        if (value2 >= targetValue2) {
+            // Stop the animation
+            clearInterval(intervalId2);
+
+            // Set the final value
+            booking.innerHTML = targetValue2.toFixed();
+        }
+    }, updateInterval);
+</script>
+
+
+<style>
+    table {
+        width: 150%;
+        font-size: 20px;
+    }
+</style>

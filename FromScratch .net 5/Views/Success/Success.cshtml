@@ -1,0 +1,64 @@
+﻿@using FromScratch_.net_5.Models;
+@using QRCoder
+
+@{
+
+    ViewBag.Title = "Success";
+    // Generate a random code
+    var UID = ViewBag.UserId;
+    var movie = ViewBag.movie;
+    var children = ViewBag.children;
+    var email = ViewBag.email;
+    var adults = ViewBag.adults;
+    var price = (ViewBag.price).ToString();
+    var ExpiryDate = (ViewBag.ExpiryDate).ToString();
+    var code = ViewBag.Code;
+
+    var qrGenerator = new QRCodeGenerator();
+}
+<script src="https://cdn.rawgit.com/davidshimjs/qrcodejs/gh-pages/qrcode.min.js"></script>
+<div class="card-body text-center">
+
+    <br>
+    <br>
+    <br>
+
+    <h1 style="color:darkgray">Payment Successfull</h1>
+    <br>
+    <br>
+    <br>
+
+    @{
+        var qrData = qrGenerator.CreateQrCode(movie + " - Movie" + "\n" + price + " birr - Paid" + "\n" + adults + " - Adults" + "\n" + children + " - Children" + "\n" + email + " - Email" + "\n" + ExpiryDate + " - Expiry Date" + "\n" + code + " - Code", QRCodeGenerator.ECCLevel.Q);
+        var qrCode = new PngByteQRCode(qrData);
+        var qrCodeImage = qrCode.GetGraphic(20);
+       // var qrCodeImageBase64 = qrCodeImage.ToString();
+        var qrCodeImageBase64 = Convert.ToBase64String(qrCodeImage);
+    }
+
+    <h3 style="color:darkgray">Your entry code is: @code</h3>
+
+
+
+
+    <img src="data:image/png;base64,@qrCodeImageBase64" style="height: 350px;width: 350px" alt="QR Code">
+
+    <br>
+    <br>
+    <div style="align-content:center;">
+        <a asp-controller="Home" asp-action="Home" class="btn btn-primary" style="align-content:center; width:auto">Go Back To Home Page</a>
+    </div>
+
+
+</div>
+
+@*<script>
+    function generateQRCode(text) {
+        var qrcode = new QRCode(document.getElementById("qrcode"), {
+            width: 100,
+            height: 100
+        });
+
+        qrcode.makeCode(text);
+    }
+</script>*@

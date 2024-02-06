@@ -1,0 +1,115 @@
+﻿@using FromScratch_.net_5.Models;
+@model MovieCreateViewModel
+
+@{
+    ViewBag.Title = "Create Movie";
+}
+
+<form  enctype="multipart/form-data" asp-controller="Home" asp-action="Create" method="post" class="mt-3 form-horizontal">
+    <div class="form-group row" style="margin: 15px;">
+    <label asp-for="Name" class="col-sm-2 col-form-label" style="color:darkgrey"></label>
+   <div class="col-sm-10">
+    <input asp-for="Name" class="form-control" placeholder="Name" > 
+    <span asp-validation-for="Name" class="text-danger"></span>
+   </div>
+    </div>
+
+    <div class="form-group row " style="margin: 15px;">
+        <label asp-for="Genre" class="col-sm-2 col-form-label" style="color:darkgrey"></label>
+        <div class="col-sm-10">
+            <select asp-for="Genre" class="form-select form-select-sm" multiple aria-label=".form-select-sm example"
+                    asp-items="Html.GetEnumSelectList<genre>()">
+                <option value="">Please Select</option>
+            </select>
+            <span asp-validation-for="Genre" class="text-danger"></span>
+        </div>
+    </div>
+
+
+     <div class="form-group row " style="margin: 15px;">
+        <label asp-for="Description" class="col-sm-2 col-form-label" style="color:darkgrey"></label>
+        <div class="col-sm-10">
+         <textarea asp-for="Description"  class="form-control" placeholder="Enter Description for the movie" ></textarea>
+            <span asp-validation-for="Description" class="text-danger"></span>
+     </div>
+    </div>
+
+    <div class="form-group row " style="margin: 15px;">
+        <label asp-for="Director" class="col-sm-2 col-form-label" style="color:darkgrey"></label>
+        <div class="col-sm-10">
+         <input asp-for="Director" class="form-control" placeholder="Enter Director Name" >
+            <span asp-validation-for="Director" class="text-danger"></span>
+     </div>
+    </div>
+
+    <div class="form-group row " style="margin: 15px;">
+        <label asp-for="Actors" class="col-sm-2 col-form-label" style="color:darkgrey"></label>
+        <div class="col-sm-10">
+            <input asp-for="Actors" class="form-control" placeholder="Enter Actors Name">
+            <span asp-validation-for="Actors" class="text-danger"></span>
+        </div>
+    </div>
+
+    <div class="form-group row " style="margin: 15px;">
+        <label asp-for="Producer" class="col-sm-2 col-form-label" style="color:darkgrey"></label>
+        <div class="col-sm-10">
+            <input asp-for="Producer" class="form-control" placeholder="Enter producer Name">
+            <span asp-validation-for="Producer" class="text-danger"></span>
+        </div>
+    </div>
+
+    <div class="form-group row " style="margin: 15px;">
+        <label asp-for="ReleaseDate" class="col-sm-2 col-form-label" style="color:darkgrey">Release Date</label>
+        <div class="col-sm-10">
+            <input type="date" asp-for="ReleaseDate" class="form-control" placeholder="Enter ReleaseDate">
+            <span asp-validation-for="ReleaseDate" class="text-danger"></span>
+        </div>
+    </div>
+
+    <div class="form-group row " style="margin: 15px;">
+        <label asp-for="AvailableUntil" class="col-sm-2 col-form-label" style="color:darkgrey">Available Until</label>
+        <div class="col-sm-10">
+            <input type="date" asp-for="AvailableUntil" class="form-control" placeholder="Available Until">
+            <span asp-validation-for="AvailableUntil" class="text-danger"></span>
+        </div>
+    </div>
+
+    <div class="form-group row " style="margin: 15px;">
+        <label asp-for="AvailableTimes" class="col-sm-2 col-form-label" style="color:darkgrey"></label>
+        <div class="col-sm-10">
+            <select asp-for="AvailableTimes" class="form-select form-select-sm" multiple aria-label=".form-select-sm example"
+                    asp-items="Html.GetEnumSelectList<time>()">
+                <option value="">Please Select</option>
+            </select>
+            <span asp-validation-for="AvailableTimes" class="text-danger"></span>
+        </div>
+    </div>
+
+
+    <div class="form-group row " style="margin: 15px;">
+        <label asp-for="AvailableSeats" class="col-sm-2 col-form-label" style="color:darkgrey"></label>
+        <div class="col-sm-10">
+            <input asp-for="AvailableSeats" value="100"  class="form-control" placeholder="Available Seats">
+            <span asp-validation-for="AvailableSeats" class="text-danger"></span>
+        </div>
+    </div>
+
+
+    <div class="form-group row " style="margin: 15px;">
+        <label class="col-sm-2 col-form-label" style="color:darkgrey">Photo</label>
+        <div class="col-sm-10">
+            <div class="custom-file">
+            <input asp-for="Photo" class="form-control custom-file-input" multiple>
+          @*  <label class="custom-file-label">Choose File...</label>*@
+            </div>
+        </div>
+    </div>
+
+    <div asp-validation-summary="All" style="margin:15px" class="text-danger"></div>
+
+    <div class="form-group-row">
+        <div class="col-sm-10">
+        <button type="submit" class="btn btn-primary">Create</button>
+        </div>
+    </div>
+</form>

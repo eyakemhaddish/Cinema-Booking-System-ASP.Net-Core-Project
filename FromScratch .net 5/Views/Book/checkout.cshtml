@@ -1,0 +1,139 @@
+﻿
+
+@{
+    ViewBag.Title = "Checkout";
+    var price = ViewBag.Price;
+    var children = ViewBag.Children;
+    var adults = ViewBag.adults;
+    var movieId = ViewBag.movieId;
+  
+    var userEmail = ViewBag.email;
+    Random random = new Random();
+    int txt = random.Next(1000000000);
+}
+
+
+<div class="row justify-content-center m-4" style="background-image:url('.. /Images/bg6.jpg')">
+    <div class="col-sm-8 justify-content-center">
+        <div class="card " style="background-color: transparent">
+            <div class=" card-header justify-content-center">
+                <h1 style="color:darkgrey; ">
+                    Confirm your payment
+                </h1>
+            </div>
+            <div asp-validation-summary="All" style="margin:15px" class="text-danger"></div>
+
+
+            <div class="form-group row " style="margin: 15px;">
+                Number of Adults : @adults
+            </div>
+            <div class="form-group row " style="margin: 15px;">
+                Number of Children : @children
+            </div>
+            <div class="form-group row " style="margin: 15px;">
+                Total price : @price Birr
+            </div>
+
+
+            <form id="myForm" method="post" action="/Success/SaveUserData">
+                <!-- Form fields for Controller1 -->
+                <input type="hidden" name="public_key" value="CHAPUBK_TEST-Mpe16MZX2bryKlbVFCTVOMI53Ha1stn1" />
+
+                <input type="hidden" name="amount" value="@price" />
+                <input type="hidden" name="currency" value="ETB" />
+                <input type="hidden" name="email" value="@userEmail" />
+                <input type="hidden" name="first_name" value="@userEmail" />
+                <input type="hidden" name="last_name" value="@userEmail" />
+                <input type="hidden" name="title" value="Book Cinema" />
+                <input type="hidden" name="description" value="Book a ticket" />
+                <input type="hidden" name="logo" value="https://chapa.link/asset/images/chapa_swirl.svg" />
+                <input type="hidden" name="callback_url" value="https://localhost:44378/success/success" />
+                <input type="hidden" name="return_url" value="https://localhost:44378/success/success" />
+                <input type="hidden" name="meta[title]" value="test" />
+                <input type="hidden" name="ppl" value="@adults" />
+                <input type="hidden" name="children" value="@children" />
+                <input type="hidden" name="movieId" value="@movieId" />
+               
+
+            
+
+                <div class="form-group-row justify-content-center">
+                    <div class="col-sm-10 justify-content-center">
+                        <button type="submit" class="btn btn-primary" style="background-color:transparent; color: darkgray;  text-align: center; position: absolute; left: 50%; width: auto;">
+                            Pay with chapa
+                            <img style="width: 40px;" src="~/images/chapa.jpg" alt="Your image" />
+                        </button>
+                    </div>
+                </div>
+            </form>
+
+
+
+         
+
+            @*<button type="submit" class="btn btn-primary" style="background-color:transparent; color: darkgray;  text-align: center; position: absolute; left: 50%; width: auto;">
+                Pay with chapa
+                <img style="width: 40px;" src="~/images/chapa.jpg" alt="Your image" />
+            </button>*@
+
+
+
+            <div>
+
+
+                <style>
+                    h1 {
+                        text-align: center;
+                        position: absolute;
+                        left: 50%;
+                        transform: translate(-50%, -50%);
+                    }
+
+                </style>
+
+
+
+
+            </div>
+        </div>
+    </div>
+
+  
+
+  
+
+
+
+   @*
+   copied from chaapa    
+   
+   var myHeaders = new Headers();
+    myHeaders.append("Authorization", "Bearer CHASECK-xxxxxxxxxxxxxxxx");
+    myHeaders.append("Content-Type", "application/json");
+
+    var raw = JSON.stringify({
+    "amount": "100",
+    "currency": "ETB",
+    "email": "abebech_bekele@gmail.com",
+    "first_name": "Bilen",
+    "last_name": "Gizachew",
+    "phone_number": "0912345678",
+    "tx_ref": "chewatatest-6669",
+    "callback_url": "https://webhook.site/077164d6-29cb-40df-ba29-8a00e59a7e60",
+    "return_url": "https://www.google.com/",
+    "customization[title]": "Payment for my favourite merchant",
+    "customization[description]": "I love online payments"
+    });
+
+    var requestOptions = {
+    method: 'POST',
+    headers: myHeaders,
+    body: raw,
+    redirect: 'follow'
+    };
+
+    fetch("https://api.chapa.co/v1/transaction/initialize", requestOptions)
+    .then(response => response.text())
+    .then(result => console.log(result))
+    .catch(error => console.log('error', error));
+*@

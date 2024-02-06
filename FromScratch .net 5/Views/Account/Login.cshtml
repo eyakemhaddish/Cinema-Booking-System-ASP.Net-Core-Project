@@ -1,0 +1,123 @@
+﻿@model LoginViewModel
+
+@{
+    ViewBag.Title = "Login";
+}
+
+
+<div class="row justify-content-center m-4" style="background-color: transparent;">
+    <div class="col-sm-8 justify-content-center">
+        <div class="card " style="background-color: transparent">
+            <div class=" card-header justify-content-center" >
+                <h1 style="color:darkgrey; ">
+                    <b>Login</b>
+                </h1>
+            </div>
+    <div asp-validation-summary="All" style="margin:15px" class="text-danger"></div>
+    <form method="post">
+        <div class="form-group row " style="margin: 15px;">
+            <label asp-for="Email" class="col-sm-2 col-form-label" style="color:darkgrey"></label>
+            <div class="col-sm-10">
+                <input  asp-for="Email" class="form-control" placeholder="Enter Email">
+                <span asp-validation-for="Email" class="text-danger"></span>
+            </div>
+        </div>
+
+
+        <div class="form-group row " style="margin: 15px;">
+            <label asp-for="Password" class="col-sm-2 col-form-label" style="color:darkgrey"></label>
+            <div class="col-sm-10">
+                <input asp-for="Password" class="form-control" placeholder="Enter Password">
+                <span asp-validation-for="Password" class="text-danger"></span>
+            </div>
+        </div>
+
+
+        <div class="form-group row " style="margin: 15px;">
+            
+            <div class="checkbox">
+                <label asp-for="RememberMe" style="color:darkgrey">
+                    <input asp-for="RememberMe"/>
+                    Remember Me
+
+                </label>
+              
+            </div>
+        </div>
+
+                <div class="form-group-row justify-content-center">
+                    <div class="col-sm-10 justify-content-center">
+                        <button type="submit" class="btn btn-primary" style="background-color:transparent; color: darkgray;  text-align: center;
+                                position: absolute;
+
+                                left: 50%;">
+                            Login
+                        </button>
+            </div>
+            <div>
+                <a asp-action="ForgotPassword">Forgot Password</a>
+            </div>
+        </div>
+
+        
+
+
+    </form>
+    <div>
+                <div class="card " style="background-color: transparent; top:20px">
+                    <div class=" card-header justify-content-center">
+        
+                        <style>
+                            h1 {
+                                text-align: center;
+                                position: absolute;
+                               
+                                left: 50%;
+                                transform: translate(-50%, -50%);
+                            }
+
+                        </style>
+          </div>
+
+@*          @{
+              if(Model.ExternalLogins.Count == 0 ){
+                  <div>No external logins configured</div>
+              }
+              else{
+                  <form method="post" asp-controller = "Account" asp-action="ExternalLogin" asp-route-returnUrl = "@Model.ReturnUrl">
+                  <div>
+                  @foreach (var provider in Model.ExternalLogins){
+                      <button type="submit" class="btn btn-primary" style="width:auto"
+                      name="provider" value="@provider.Name" title="Login using your @provider.DisplayName account">
+                   Sign in with @provider.DisplayName
+                                        <img style="width: 40px;" src="~/images/google.jpg">
+                      </button>
+                  }
+                  </div>
+                       
+                  </form>
+              }
+
+          }*@
+                    @{
+                      
+                        
+                            <form method="post" asp-controller="Account" asp-action="ExternalLogin" asp-route-returnUrl="@Model.ReturnUrl">
+                                <div>
+                                    
+                                        <button type="submit" class="btn btn-primary" style="width:auto"
+                                        name="provider" value="Google" title="Login using your Google account">
+                                    Sign in with Google
+                                            <img style="width: 40px;" src="~/images/google.jpg">
+                                        </button>
+                                    
+                                </div>
+
+                            </form>
+                        
+
+                    }
+                </div>
+        </div>
+</div>
+    </div>

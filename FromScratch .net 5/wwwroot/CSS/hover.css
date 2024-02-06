@@ -1,0 +1,32 @@
+﻿body {
+}
+.intro{
+    height: 90px;
+    width: 320px;
+    padding: 1px;
+    box-sizing:border-box;
+    position: absolute;
+    bottom: 0px;
+ 
+    color:darkgray;
+    transition: .5s;
+    text-align: center;
+}
+.card:hover{
+    cursor: pointer;
+}
+p{
+    font-size:14px;
+    margin: 20px;
+    visibility: hidden;
+    opacity: 0;
+}
+
+.card:hover .intro {
+ 
+    background-color: darkgray; 
+    visibility: visible;
+    opacity: 1;
+}
+
+

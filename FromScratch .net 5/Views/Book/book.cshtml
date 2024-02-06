@@ -1,0 +1,319 @@
+﻿@{
+   // var strDate = (Model.Movie.ReleaseDate).ToString();
+
+
+
+    var photoPath = "/Images/" + (Model.Movie.Photo ?? "404.jpg");
+}
+<form method="post">
+    <input type="hidden" name="price" id="priceInput">
+    <div class="row " style="width: 1200px; background-image:url('.. /Images/bg6.jpg')">
+        <div class="col-sm-8 justify-content-left" style=" background-color: transparent;">
+        <div class="card  m-2">
+            <div class="card-header">
+                <h1>@Model.Movie.Name</h1>
+            </div>
+
+            <div class="card-body text-center">
+                <img class="card-img-top" style="width:180px; height:300px" src="@photoPath" asp-append-version="true" />
+
+
+                <h4>Movie ID : @Model.Movie.Id</h4>
+                <h4>Genre : @Model.Movie.Genre</h4>
+                <h4>Director : @Model.Movie.Director</h4>
+                <h4>Actors : @Model.Movie.Actors</h4>
+                <h4>Producer : @Model.Movie.Producer</h4>
+               @* <h4>Release Date : @Model.Movie.ReleaseDate.ToString()</h4>
+*@
+
+
+            </div>
+
+            @*   <div class="card-footer text-center">
+            <a asp-controller="Home" asp-action="Index" class="btn btn-primary">Back</a>
+            <a asp-controller="Home" asp-action="Edit" asp-route-id="@Model.Movie.Id" class="btn btn-primary">Edit</a>
+            <a href="#" class="btn btn-danger">Delete</a>
+            </div>*@
+        </div>
+
+
+    </div>
+    <div class="col-sm-4 justify-content-right">
+        <div class="card  m-2">
+            <div class="card-header">
+                <h1>Checkout</h1>
+            </div>
+
+            <div class="card-body text-center">
+
+
+
+
+                @*    <h4>Movie ID : @Model.Movie.Id</h4>
+                <h4>Genre : @Model.Movie.Genre</h4>
+                <h4>Director : @Model.Movie.Director</h4>
+                <h4>Actors : @Model.Movie.Actors</h4>
+                <h4>Producer : @Model.Movie.Producer</h4>
+                <h4>Release Date : @Model.Movie.ReleaseDate.ToString()</h4>*@
+                <header>
+                    <h3 class="text-slanted">@Model.Movie.Name</h3>
+                </header>
+
+                @* <div>
+
+                <div>
+                <label for="numberOfPeople">Number of People:</label>
+                <input type="text" id="numberOfPeople" name="numberOfPeople" />
+                </div>
+
+
+
+                </div>*@
+                <div>
+                    <label for="numberOfPeople">Adults:</label>
+                    <div class="input-group">
+                        <span class="input-group-btn">
+                            <button type="button" class="btn btn-default btn-number" data-type="minus" data-field="numberOfPeople">
+                                <img src="~/images/minus.png" style="width: 17px; height: 20px;" />
+                            </button>
+                        </span>
+                        <input type="text" id="numberOfPeople" name="numberOfPeople" class="form-control input-number" value="0" min="1">
+                        <span class="input-group-btn">
+                            <button type="button" class="btn btn-default btn-number" data-type="plus" data-field="numberOfPeople">
+                                <img src="~/images/plus.jpg" style="width: 30px; height: 30px;" />
+                            </button>
+                        </span>
+                    </div>
+                </div>
+
+                <div>
+                    <label for="Children">Children</label>
+                    <div class="input-group">
+                        <span class="input-group-btn">
+                            <button type="button" class="btn btn-default btn-number" data-type="minus" data-field="Children">
+                                <img src="~/images/minus.png" style="width: 17px; height: 20px;" />
+                            </button>
+                        </span>
+                        <input type="text" id="Children" name="Children" class="form-control input-number" value="0" min="0">
+                        <span class="input-group-btn">
+                            <button type="button" class="btn btn-default btn-number" data-type="plus" data-field="Children">
+                                <img src="~/images/plus.jpg" style="width: 30px; height: 30px;" />
+                            </button>
+                        </span>
+                    </div>
+                </div>
+                <!-- footer -->
+                <footer>
+                    <div>
+                        <label for="totalPrice">Total Price: Birr</label>
+                        <span id="totalPrice"></span>
+                    </div>
+
+                </footer>
+
+               
+
+                <script>
+                    $(function () {
+                        // Listen for changes to the input field
+                        $('#numberOfPeople').on('input', function () {
+                            var numberOfPeople = parseInt($(this).val());
+                            if (isNaN(numberOfPeople) || numberOfPeople < 0) {
+                                // If the input is not a valid number or is less than 1, set the value to 1
+                                $(this).val(1);
+                            }
+                            updateTotalPrice();
+                        });
+                        $('#Children').on('input', function () {
+                            var Children = parseInt($(this).val());
+                            if (isNaN(Children) || Children < 0) {
+                                // If the input is not a valid number or is less than 1, set the value to 1
+                                $(this).val(1);
+                            }
+                            updateTotalPrice();
+                        });
+
+
+
+                        // Listen for clicks on the plus and minus buttons
+                        $('.btn-number').click(function (e) {
+                            e.preventDefault();
+
+                            var fieldName = $(this).data('field');
+                            var type = $(this).data('type');
+                            var input = $('input[name="' + fieldName + '"]');
+                            var currentVal = parseInt(input.val());
+
+                            if (!isNaN(currentVal)) {
+                                if (type === 'minus') {
+                                    // Subtract 1 from the current value, but ensure it doesn't go below 1
+                                    var newValue = currentVal > 0 ? currentVal - 1 : 1;
+                                    input.val(newValue);
+                                } else if (type === 'plus') {
+                                    // Add 1 to the current value
+                                    var newValue = currentVal + 1;
+                                    input.val(newValue);
+                                }
+                                updateTotalPrice();
+                            } else {
+                                // If the current value is not a valid number, set it to1
+                                input.val(1);
+                            }
+                        });
+
+                        // Update the total price displayed on the page
+                        function updateTotalPrice() {
+                            var numberOfPeople = parseInt($('#numberOfPeople').val());
+                            if (!isNaN(numberOfPeople)) {
+                                var adult = numberOfPeople * 120;
+
+                            }
+                            var Children = parseInt($('#Children').val());
+                            if (!isNaN(Children)) {
+
+                                var totalPrice = Children * 50 + adult
+
+                                $('#totalPrice').text(totalPrice);
+                            } else {
+                                $('#totalPrice').text('');
+                            }
+
+                        }
+                    });
+                </script>
+                
+
+
+
+            </div>
+               
+               
+                <div class="card-footer text-center">
+                <a asp-controller="Home" asp-action="Index" class="btn btn-primary">Cancel</a>
+
+                    <button type="submit" id="sendButton" class="btn btn-primary" style="width: auto">Checkout</button>
+                    <script>
+                        // Attach a click event listener to the button
+                        document.getElementById("sendButton").addEventListener("click", function () {
+                            // Get the price from the span tag
+                            var price = document.getElementById("totalPrice").innerText;
+                            if (price == 0 || price == null) {
+                                // Display a validation error
+                                alert("Price cannot be 0.");
+
+                                event.preventDefault(); // Prevent default form submission behavior
+                            }
+                            // Set the value of the hidden input field to the price
+                            document.getElementById("priceInput").value = price;
+                        });
+                    </script>
+            </div>
+        </div>
+
+
+    </div>
+</div>
+</form>
+
+
+    <style>
+        .seat {
+            display: inline-block;
+            width: 30px;
+            height: 30px;
+            background-color: blue;
+            margin: 5px;
+            cursor: pointer;
+        }
+
+            .seat.selected {
+                background-color: green;
+            }
+    </style>
+
+
+<style>
+    .seat {
+        display: inline-block;
+        width: 50px;
+        height: 50px;
+        background-color: blue;
+        margin: 5px;
+        cursor: pointer;
+        border-radius: 5px;
+    }
+
+        .seat.adults {
+            background-color: green;
+        }
+
+        .seat.children {
+            background-color: red;
+            
+        }
+
+    .seat-row {
+        display: flex;
+        flex-direction: row;
+    }
+</style>
+
+
+    <h1>Choose Your Seat</h1>
+    <p>Please select a seat by clicking on it:</p>
+    <div id="seats">
+        @for (int i = 1; i <= 10; i++)
+        {
+            <div class="seat-row">
+                @for (int j = 1; j <= 10; j++)
+                {
+                    <div class="seat" id="seat-@((i-1)*10+j)" onclick="selectSeat(@((i-1)*10+j))" ondblclick="bookSeat(@((i-1)*10+j))"></div>
+                }
+            </div>
+        }
+    </div>
+    <script>
+        function selectSeat(seatNumber) {
+            var seat = document.getElementById("seat-" + seatNumber);
+        if (seat.classList.contains("adults")) {
+            seat.classList.remove("adults");
+            } else {
+            seat.classList.add("adults");
+            }
+        }
+
+        function bookSeat(seatNumber) {
+            var seat = document.getElementById("seat-" + seatNumber);
+        if (!seat.classList.contains("children")) {
+            seat.classList.add("children");
+            seat.classList.remove("adults");
+
+            }
+        else if (seat.classList.contains("children") && seat.classList.contains("adults")) {
+            seat.classList.remove("children");
+            seat.classList.add("adults");
+        }
+        }
+    </script>
+
+
+@*<div class="container">
+    <div class="row">
+        <div class="col-md-6">
+            <div class="first-div">
+                <!-- content of first div goes here -->
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="second-div">
+                <!-- content of second div goes here -->
+            </div>
+        </div>
+    </div>
+</div>*@
+
+
+
+@section Scripts {
+    <script src="~/js/CustomScript.js"></script>
+}    

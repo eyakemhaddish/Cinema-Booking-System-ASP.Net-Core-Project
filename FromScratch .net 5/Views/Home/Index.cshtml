@@ -1,0 +1,124 @@
+﻿@using FromScratch_.net_5.Models
+@model IEnumerable<Movies>;
+@inject SignInManager<ApplicationUser> signInManager;
+
+
+@{
+    ViewData["Title"] = "List of Movies";
+  
+}
+<link href="~/css/flyin.css" rel="stylesheet" />
+<div class="row" style="background-color: transparent">
+    @foreach (var movies in Model)
+    {
+        var photoPath = "/Images/" + (movies.Photo ?? "404.jpg");
+        <div class="col-md-4 col-xs-6 border-primary mb-3  fly-in" >
+            <div class="card mb-3" style="max-width: 540px; max-width: 370px; ">
+                <div class="row g-0" >
+                    <div class="col-md-12" >
+                        <div class="card-header" >
+                            <p class="card-text">
+                                <h3 class="card-title" style="color:darkgrey">
+                                    @movies.Name
+                                    @if (signInManager.IsSignedIn(User) && User.IsInRole("Super Admin") || User.IsInRole("Admin"))
+                                    {
+                                      //  <a class="text-white float-right" asp-action="Edit" asp-route-id="@movies.Id"><i class="bi bi-pencil-square"></i></a>
+                                    }
+                                </h3>
+                            </p>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <img src="@photoPath"  alt="@movies.Name " style="height: 350px">
+                    </div>
+                    <div class="col-md-6">
+                        <div class="card-body">
+
+                            <p class="card-text" style="color:darkgrey"><b>Genre: </b>@movies.Genre</p>
+                            <p class="card-text" style="color:darkgrey"><b>Director: </b>@movies.Director</p>
+                            <p class="card-text" style="color:darkgrey"><b>Producer: </b>@movies.Producer</p>
+                            <p class="card-text" style="color:darkgrey"><b>Actors: </b>@movies.Actors</p>
+                            <p class="card-text" style="color:darkgrey"><b>Start Date: </b>@movies.ReleaseDate.ToString()</p>
+                            <p class="card-text" style="color:darkgrey"><b>End Date: </b>@movies.AvailableUntil.ToString()</p>
+                            <p class="card-text" style="color:darkgrey"><b>Available Seats: </b>@movies.AvailableSeats.ToString()</p>
+                            <p class="card-text ">
+                                <b style="color:darkgrey">Status: </b>
+                                
+                                @if (DateTime.Now >= movies.ReleaseDate && DateTime.Now <= movies.AvailableUntil)
+                                {
+                                    <span class="badge bg-success text-white">AVAILABLE</span>
+                                }
+                                else if (DateTime.Now > movies.AvailableUntil || movies.AvailableSeats < 1)
+                                {
+                                    <span class="badge text-white" style="background-color: red">Not Available</span>
+                                }
+                                else
+                                {
+                                    <span class="badge bg-primary text-white">UPCOMING</span>
+                                }
+                               
+                            </p>
+
+                        </div>
+                    </div>
+                    <div class="col-md-12">
+                        <div class="card-footer ">
+                            <p class="card-text">
+                                <a class="btn btn-outline-primary float-right" asp-action="Details" asp-route-id="@movies.Id" style="width:auto">
+                                    <i class="bi bi-eye-fill"></i> Show Details
+                                </a>
+                                <a class="btn btn-success text-white @((DateTime.Now > movies.AvailableUntil || movies.ReleaseDate.Equals( null) || movies.AvailableSeats < 1) ? "disabled" : "")"
+                               asp-controller="Book"
+                               asp-action="Book"
+                               asp-route-id="@movies.Id" style="width:auto">
+                                <i class="bi bi-cart-plus" ></i> Book Now @*(Price @movies.Price.ToString("c"))*@</a>
+                                @if (signInManager.IsSignedIn(User) && User.IsInRole("Super Admin") || User.IsInRole("Admin"))
+                                {
+                                  
+                                    <a asp-controller="Home" asp-action="Edit" asp-route-id="@movies.Id" class="btn btn-primary m-1">Edit</a>
+                                    <a asp-controller="Home" asp-action="Delete" asp-route-id="@movies.Id" class="btn btn-danger m-1" onclick="return confirm('Are you sure you want to delete @movies.Name')">Delete</a>
+                                    //  <a class="text-white float-right" asp-action="Edit" asp-route-id="@movies.Id"><i class="bi bi-pencil-square"></i></a>
+                                }
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+</div>
+
+
+
+
+
+
+
+
+
+
+    @*<table>
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Name</th>
+                <th>Department</th>
+
+            </tr>
+
+        </thead>
+        <tbody>
+            @foreach (var employee in Model)
+            {
+                <tr>
+                <td>@employee.Id</td>
+            <td>@employee.Name</td>
+            <td>@employee.Department</td>
+                </tr>
+
+            }
+
+        </tbody>
+
+    </table>
+*@

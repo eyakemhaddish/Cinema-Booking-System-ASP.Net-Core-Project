@@ -1,0 +1,33 @@
+﻿footer {
+   background-color: none;
+    padding: 20px;
+    border-top: 1px solid #ddd;
+    font-size: 14px;
+    color: #666;
+}
+
+.footer-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.footer-links li {
+    display: inline-block;
+    margin-right: 10px;
+}
+
+    .footer-links li:last-child {
+        margin-right: 0;
+    }
+
+.footer-links a {
+    color: #666;
+    text-decoration: none;
+    font-weight: bold;
+    transition: all 0.3s ease-in-out;
+}
+
+    .footer-links a:hover {
+        color: #f44336;
+    }

@@ -1,0 +1,54 @@
+﻿@model HomeDetailsViewModel
+@using FromScratch_.net_5.Models;
+@inject SignInManager<ApplicationUser> signInManager;
+
+@{
+    ViewBag.Title = "Movie Details";
+    var strDate = (Model.Movie.ReleaseDate).ToString();
+
+    var photoPath = "/Images/" + (Model.Movie.Photo ?? "404.jpg");
+}
+
+<div class="row justify-content-center m-3" >
+    <div class="col-sm-8" >
+        <div class="card" style="background-image:url('../Images/bg6.jpg');  background-attachment: fixed;">
+            <div class="card-body" style="background-image:url('../Images/bg6.jpg');  background-attachment: fixed;">
+                <div class="row" style="background-image:url('../Images/bg6.jpg');  background-attachment: fixed;">
+                    <div class="col-md-4">
+                        <img class="card-img-top" style="width: 100%; height: auto;" src="@photoPath" asp-append-version="true" />
+                    </div>
+                    <div class="col-md-8">
+                        <h1><b>@Model.Movie.Name</b></h1>
+                        <h4><b>Movie ID : </b> <small style="font-size:18px">@Model.Movie.Id</small></h4>
+                        <h4><b>Genre : </b> <small style="font-size:18px">@Model.Movie.Genre</small></h4>
+                        <h4><b>Directors : </b> <small style="font-size:18px">@Model.Movie.Director</small></h4>
+                        <h4><b>Actors : </b> <small style="font-size:18px">@Model.Movie.Actors</small></h4>
+                        <h4><b>Producer : </b> <small style="font-size:18px">@Model.Movie.Producer</small></h4>
+                        <h4><b>Release Date : </b> <small style="font-size:18px">@Model.Movie.ReleaseDate</small></h4>
+                        <h4><b>Available Until : </b> <small style="font-size:18px">@Model.Movie.AvailableUntil</small></h4>
+                        <h4><b>Available Seats : </b> <small style="font-size:18px">@Model.Movie.AvailableSeats</small></h4>
+                        <h4><b>Description :</b> <small style="font-size:18px">@Model.Movie.Description</small></h4>
+                        <div class="card-footer text-center">
+                            <a asp-controller="Home" asp-action="Index" class="btn btn-primary">Back</a>
+                            @if (signInManager.IsSignedIn(User) && User.IsInRole("Super Admin"))
+                            {
+                                <a asp-controller="Home" asp-action="Edit" asp-route-id="@Model.Movie.Id" class="btn btn-primary">Edit</a>
+                                <a href="#" class="btn btn-danger">Delete</a>
+                            }
+                            <a class="btn btn-success text-white @((DateTime.Now > Model.Movie.AvailableUntil) ? "disabled" : "")"
+                               asp-controller="Book"
+                               asp-action="Book"
+                               asp-route-id="@Model.Movie.Id" style="width:auto">
+                                <i class="bi bi-cart-plus"></i> Book Now @*(Price @movies.Price.ToString("c"))*@
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts { 
+    <script src="~/js/CustomScript.js"></script>
+}      

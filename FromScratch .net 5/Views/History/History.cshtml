@@ -1,0 +1,230 @@
+﻿@model IEnumerable<HistoryViewModel>
+@using FromScratch_.net_5.Models
+
+@inject SignInManager<ApplicationUser> signInManager;
+
+@{
+    ViewBag.Title = "Booking History";
+    Random random = new Random();
+    int txt = random.Next(1000000000);
+
+}
+
+<h1 style="color: darkgray; text-align: center; margin: 0; font-size: 70px;">
+    <b>Booking History</b>
+</h1>
+<div class="col-3">
+    <form id="myForm" method="post" action="/History/DeleteHistory">
+
+        <input type="hidden" name="Id" value="0" />
+
+        <button asp-controller="History" asp-action="DeleteHistory" asp-route-id="0" class="btn text-white" style="width: 100px; background-color: red" type="submit" onclick="return confirm('Are you sure you want to delete?')">Clear All</button>
+    </form>
+</div>
+@*sort*@
+@{
+    var sortOptions = new List<SelectListItem>
+    {
+        new SelectListItem { Text = "All", Value = "" },
+        new SelectListItem { Text = "Successful payments", Value = "Success" },
+        new SelectListItem { Text = "Failed payments", Value = "Fail" }
+    };
+    var movieNames = Model.Select(h => h.MovieName).Distinct();
+    foreach (var movieName in movieNames)
+    {
+        sortOptions.Add(new SelectListItem
+                {
+                    Text = "Only " + movieName,
+                    Value = movieName,
+                   
+    });
+    }
+    }  
+
+@using (Html.BeginForm("Sort", "History", FormMethod.Get, new { id = "sort-form" }))
+{
+    <div class="form-group row">
+        <label for="status" class="col-sm-2 col-form-label " style=" font-size: 1.8rem;
+        position: absolute;
+        width: 150px;
+        top: 165px;
+        left: 1210px;"><b>Sort By:</b></label>
+        <div class="col-sm-10">
+            @Html.DropDownList("status", sortOptions, new { @class = "form-control dropdown-sm", onchange = "submitOnSelect();" })
+        </div>
+    </div>
+}
+
+<style>
+    .dropdown-sm {
+        font-size: 0.8rem;
+        position: absolute;
+        width: 150px;
+        top: 180px;
+        left: 1330px;
+    }
+</style>
+
+<script>
+    function submitOnSelect() {
+        var form = document.getElementById("sort-form");
+        form.submit();
+    }
+</script>
+
+@if (Model.Any())
+{
+   
+    foreach (var history in Model)
+    {
+        var photoPath = "/Images/" + (history.photopath ?? "404.jpg");
+      
+        <div class="card mb-3" style="height: 300px">
+            <div class="card-header ">
+                Booking Code: @history.Code
+                @if (signInManager.IsSignedIn(User) && User.IsInRole("Super Admin")){
+                    <span> &nbsp; &nbsp; &nbsp; &nbsp; <b>|</b> &nbsp; &nbsp; &nbsp;&nbsp;</span>
+                    <span>User Email: @history.Email</span>
+                    <span> &nbsp; &nbsp; &nbsp; &nbsp; <b>|</b> &nbsp; &nbsp; &nbsp;&nbsp;</span>                    <span>User ID: @history.UserId</span>
+                  //  Booking Code: @history.Code
+
+                }
+            </div>
+            <div class="card-body" style="height: 300px">
+                <div class="row">
+                    <div class="col-3" style="width: 180px">
+                        <img style="height: 240px" src="@photoPath" alt="@history.MovieName">
+                      
+                    </div>
+                    <div class="col-9">
+                        <h2 class="card-title"><b>@history.MovieName</b> </h2> <br>
+                        <h7 class="card-title">Adults: @history.Adults</h7> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <h7>
+                            Status: @history.Status &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;    <h7 class="card-text ">
+
+
+                                @if (history.Status == "Fail")
+                                {
+                                    <span>&nbsp; &nbsp; &nbsp; &nbsp;  </span>
+                                    <span class="badge text-white red">PAYMENT NOT SUCCESSFUL</span>
+                                }
+                                else
+                                {
+                                    <span class="badge text-white green">PAYMENT SUCCESSFUL</span>
+                                }
+                            </h7>
+                        </h7><br>
+                        <h7 class="card-title">Children: @history.Children</h7>  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <h7>
+                            Expiry Date: @history.ExpiryDate &nbsp;  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;    <h7 class="card-text ">
+
+
+                                @if (DateTime.Now > history.ExpiryDate)
+                                {
+                                    <span class="badge  text-white red">EXPIRED</span>
+                                }
+                                else
+                                {
+                                    <span class="badge  text-white green">NOT EXPIRED</span>
+                                }
+                            </h7>
+                            <style>
+                                .red {
+                                    background-color: red;
+                                }
+
+                                .green {
+                                    background-color: green;
+                                }
+                            </style>
+                        </h7><br>
+                        <h7 class="card-title">Movie ID: @history.MovieId</h7>    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                       <hr>
+                        <h3 class="card-title"><b>Total:</b> @history.price birr</h3>
+                    </div>
+               
+                    <div class="col-3" style="width: auto">
+                        @if (history.Status == "Success")
+                        {
+                            <form id="myForm" method="post" action="/Success/GetQr">
+                                <input type="hidden" name="Expiry" value="@history.ExpiryDate" />
+                                <input type="hidden" name="adults" value="@history.Adults" />
+                                <input type="hidden" name="children" value="@history.Children" />
+                                <input type="hidden" name="movieId" value="@history.MovieId" />
+                                <input type="hidden" name="movieName" value="@history.MovieName" />
+                                <input type="hidden" name="price" value="@history.price" />
+                                <input type="hidden" name="email" value="@history.Email" />
+                                <input type="hidden" name="code" value="@history.Code" />
+                                @if (DateTime.Now > history.ExpiryDate)
+                                {
+                                    <button class="btn btn-primary" style="width: 100px" type="submit">Get <b>Expired</b> QR Code</button>
+                                }
+                                else
+                                {
+                                    <button class="btn btn-primary" style="width: 100px" type="submit">Get QR Code</button>
+                                }
+                            </form>
+                        }
+                        else
+                        {
+                            <form id="myForm" method="post" action="/Success/SaveUserData">
+                                <!-- Form fields for Controller1 -->
+                                <input type="hidden" name="public_key" value="CHAPUBK_TEST-Mpe16MZX2bryKlbVFCTVOMI53Ha1stn1" />
+
+                                <input type="hidden" name="amount" value="@history.price" />
+                                <input type="hidden" name="currency" value="ETB" />
+                                <input type="hidden" name="email" value="@history.Email" />
+                                <input type="hidden" name="ppl" value="@history.Adults" />
+                                <input type="hidden" name="children" value="@history.Children" />
+                                <input type="hidden" name="movieId" value="@history.MovieId" />
+                                <input type="hidden" name="code" value="@history.Code" />
+
+
+
+                                   @if (DateTime.Now > history.ExpiryDate) {
+                                    <button id="finishBookingBtn" class="btn btn-primary" style="width: 100px;   opacity: 0.5; pointer-events: none;" type="submit">
+                                        Finish Booking
+                                    </button>
+
+                                }
+                                else
+                                {
+                                    <button id="finishBookingBtn" class="btn btn-primary" style="width: 100px;" type="submit">
+                                        Finish Booking
+                                    </button>
+                                }
+
+                            </form>
+                           
+
+                        }
+                        <span>------------------</span>
+                        <form id="myForm" method="post" action="/History/DeleteHistory">
+
+                            <input type="hidden" name="Id" value="@history.Id" />
+
+                            <button asp-controller="History" asp-action="DeleteHistory" asp-route-id="@history.Id" class="btn text-white" style="width: 100px; background-color: red" type="submit" onclick="return confirm('Are you sure you want to delete?')">Clear History</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            
+        </div>
+    }
+}
+else
+{
+    <div class="card">
+        <div class="card-header">
+            No Booking History Yet
+        </div>
+        <div class="card-body">
+            <h5 class="card-title">
+                Plese use the button to book a ticket
+            </h5>
+            <a class="btn btn-primary" style="width:auto"
+           asp-controller="Home" asp-action="Index">
+                Book a new ticket
+            </a>
+        </div>
+
+    </div>
+}
